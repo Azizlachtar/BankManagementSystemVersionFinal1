@@ -8,10 +8,10 @@ namespace BankManagementSystemVersionFinal1.Models
         public int LoanId { get; set; }
         [Required]
         public Account Account { get; set; }
-        public double InterstRate { get; set; }
-        public DateTime StartingDate { get; set; }
-        public List<Transaction> Transactions { get; set; }
-        public DateTime EndingDate { get; set; }
+        public double? InterstRate { get; set; }
+        public DateTime? StartingDate { get; set; }
+        public List<Transaction>? Transactions { get; set; }
+        public DateTime? EndingDate { get; set; }
         public double Amount { get; set; }
 
         public enum LoanStatusEnum

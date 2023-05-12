@@ -47,7 +47,7 @@ namespace BankManagementSystemVersionFinal1.Data.Migrations
 
                     b.HasIndex("AccountHolderCustomerId");
 
-                    b.ToTable("Accounts");
+                    b.ToTable("Accounts", (string)null);
 
                     b.HasDiscriminator<string>("TypeAccount").HasValue("Account");
 
@@ -85,7 +85,7 @@ namespace BankManagementSystemVersionFinal1.Data.Migrations
                     b.HasIndex("ManagerId")
                         .IsUnique();
 
-                    b.ToTable("BankBranches");
+                    b.ToTable("BankBranches", (string)null);
                 });
 
             modelBuilder.Entity("BankManagementSystemVersionFinal1.Models.Customer", b =>
@@ -121,7 +121,7 @@ namespace BankManagementSystemVersionFinal1.Data.Migrations
 
                     b.HasIndex("BankBranchBranchId");
 
-                    b.ToTable("Customers");
+                    b.ToTable("Customers", (string)null);
                 });
 
             modelBuilder.Entity("BankManagementSystemVersionFinal1.Models.Department", b =>
@@ -138,7 +138,7 @@ namespace BankManagementSystemVersionFinal1.Data.Migrations
 
                     b.HasKey("DepartmentId");
 
-                    b.ToTable("Departments");
+                    b.ToTable("Departments", (string)null);
                 });
 
             modelBuilder.Entity("BankManagementSystemVersionFinal1.Models.Employee", b =>
@@ -180,7 +180,7 @@ namespace BankManagementSystemVersionFinal1.Data.Migrations
 
                     b.HasIndex("DepartmentId");
 
-                    b.ToTable("Employees");
+                    b.ToTable("Employees", (string)null);
 
                     b.HasDiscriminator<string>("Position").HasValue("Employee");
 
@@ -201,23 +201,23 @@ namespace BankManagementSystemVersionFinal1.Data.Migrations
                     b.Property<double>("Amount")
                         .HasColumnType("float");
 
-                    b.Property<DateTime>("EndingDate")
+                    b.Property<DateTime?>("EndingDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<double>("InterstRate")
+                    b.Property<double?>("InterstRate")
                         .HasColumnType("float");
 
                     b.Property<int>("LoanStatus")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("StartingDate")
+                    b.Property<DateTime?>("StartingDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("LoanId");
 
                     b.HasIndex("AccountId");
 
-                    b.ToTable("Loans");
+                    b.ToTable("Loans", (string)null);
                 });
 
             modelBuilder.Entity("BankManagementSystemVersionFinal1.Models.Transaction", b =>
@@ -250,7 +250,7 @@ namespace BankManagementSystemVersionFinal1.Data.Migrations
 
                     b.HasIndex("LoanId");
 
-                    b.ToTable("Transactions");
+                    b.ToTable("Transactions", (string)null);
                 });
 
             modelBuilder.Entity("BankManagementSystemVersionFinal1.Models.Transfer", b =>
@@ -279,7 +279,7 @@ namespace BankManagementSystemVersionFinal1.Data.Migrations
 
                     b.HasIndex("ReceiverId");
 
-                    b.ToTable("Transfers");
+                    b.ToTable("Transfers", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
