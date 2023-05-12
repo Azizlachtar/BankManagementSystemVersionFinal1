@@ -9,13 +9,15 @@ namespace BankManagementSystemVersionFinal1.Models
         [Required]
         public string Name { get; set; }
         public string Address { get; set; }
+
+        public string Mail { get; set; }
         public int PhoneNumber { get; set; }
         public Department Department { get; set; }
 
         public BankBranch BankBranch { get; set; }
 
         public Employee() { }
-        public Employee(string name, string address, int phoneNumber, Department department, BankBranch bankbranch)
+        public Employee(string name, string address, int phoneNumber, Department department, BankBranch bankbranch, string mail)
         {
 
             Name = name;
@@ -23,6 +25,7 @@ namespace BankManagementSystemVersionFinal1.Models
             PhoneNumber = phoneNumber;
             Department = department;
             BankBranch = bankbranch;
+            Mail = mail;
         }
     }
 }

@@ -10,6 +10,8 @@ namespace BankManagementSystemVersionFinal1.Data
             : base(options)
         {
         }
+
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<Account> Accounts { get; set; }
         public DbSet<BankBranch> BankBranches { get; set; }
         public DbSet<Customer> Customers { get; set; }
