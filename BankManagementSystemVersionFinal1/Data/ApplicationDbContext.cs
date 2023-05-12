@@ -23,12 +23,6 @@ namespace BankManagementSystemVersionFinal1.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<BankBranch>()
-               .HasOne(b => b.Manager)
-               .WithOne()
-               .HasForeignKey<BankBranch>(b => b.ManagerId)
-               .OnDelete(DeleteBehavior.Restrict);
-
             modelBuilder.Entity<Transfer>()
                 .HasOne<Account>(t => t.Sender)
                 .WithMany(c => c.Transfers)

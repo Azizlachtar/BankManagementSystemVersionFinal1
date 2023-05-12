@@ -9,9 +9,6 @@ namespace BankManagementSystemVersionFinal1.Models
         [Required]
         public string Name { get; set; }
 
-        public int? ManagerId { get; set; } // Add the manager ID foreign key
-        public Manager Manager { get; set; } // Add the manager navigation property
-
         public string City { get; set; }
         public int PhoneNumber { get; set; }
         public double BankBalance { get; set; }
