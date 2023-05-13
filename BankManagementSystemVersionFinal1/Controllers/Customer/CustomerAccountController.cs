@@ -74,7 +74,7 @@ namespace BankManagementSystemVersionFinal1.Controllers.Customer
             return View(loan);
         }
 
-
+        //get
         public IActionResult CreateTransfer(int id)
         {
             return View(new Transfer { Sender = new Account { AccountId = id } });
