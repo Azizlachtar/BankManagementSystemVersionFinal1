@@ -8,8 +8,8 @@ namespace BankManagementSystemVersionFinal1.Models
         [Key]
         public int IdTransfer { get; set; }
 
-        public int AccountId { get; set; }
-        [ForeignKey("AccountId")]
+        public int SenderId { get; set; }
+        [ForeignKey("SenderId")]
         public Account Sender { get; set; }
 
 

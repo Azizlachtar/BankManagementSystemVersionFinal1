@@ -20,6 +20,10 @@ namespace BankManagementSystemVersionFinal1.Data
         public DbSet<Loan> Loans { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<Transfer> Transfers { get; set; }
+        public DbSet<CheckingAccount> CheckingAccounts { get; set; }
+        public DbSet<SavingAccount> SavingAccounts { get; set; }
+        public DbSet<User> Users { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -32,7 +36,7 @@ namespace BankManagementSystemVersionFinal1.Data
             modelBuilder.Entity<Transfer>()
                 .HasOne<Account>(t => t.Sender)
                 .WithMany(c => c.Transfers)
-                .HasForeignKey(t => t.AccountId)
+                .HasForeignKey(t => t.SenderId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
 
@@ -53,7 +57,15 @@ namespace BankManagementSystemVersionFinal1.Data
                 .HasValue<Manager>("Manager")
                 .HasValue<Agent>("Agent");
 
+            modelBuilder.Entity<Customer>()
+                .HasOne(c => c.BankBranch)
+                .WithMany(b => b.CustomersList)
+                .HasForeignKey(c => c.BranchId);
+
             base.OnModelCreating(modelBuilder);
         }
+
+
+        public DbSet<BankManagementSystemVersionFinal1.Models.Manager> Manager { get; set; } = default!;
     }
 }

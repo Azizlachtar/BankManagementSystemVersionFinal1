@@ -132,7 +132,7 @@ namespace BankManagementSystemVersionFinal1.Areas.Identity.Pages.Account
                     }
                     else if (roles.Contains("Manager"))
                     {
-                        return LocalRedirect("/Account/Index");
+                        return LocalRedirect("/Managers/Index");
                     }
                     else
                     {

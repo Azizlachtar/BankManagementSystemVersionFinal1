@@ -2,6 +2,7 @@
 using BankManagementSystemVersionFinal1.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 using System.Diagnostics;
 namespace BankManagementSystemVersionFinal1.Controllers
 {
@@ -48,11 +49,11 @@ namespace BankManagementSystemVersionFinal1.Controllers
             {
 
 
-                if (transaction.Description == "Deposit")
+                if (transaction.Description.ToLower() == "deposit")
                 {
                     deposits.Add(transaction);
                 }
-                else if (transaction.Description == "Withdraw")
+                else if (transaction.Description.ToLower() == "withdraw")
                 {
                     withdrawals.Add(transaction);
                 }
@@ -79,25 +80,164 @@ namespace BankManagementSystemVersionFinal1.Controllers
             return View(account);
         }
 
-        public IActionResult Create()
+        // GET: Accounts/Create
+        public IActionResult Create(int customerId)
         {
+            ViewBag.CustomerId = customerId;
             return View();
         }
 
         // POST: Accounts/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // POST: Accounts/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AccountId,Balance,AccountStatus")] Account account)
+        public async Task<IActionResult> Create(int customerId, double balance, string TypeAccount)
         {
-            if (ModelState.IsValid)
+
+            var customer = _context.Customers.Find(customerId);
+
+                if (customer == null)
+                {
+                    return NotFound();
+                }
+            Account account;
+            if (TypeAccount == "CheckingAccount")
             {
-                _context.Add(account);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                account = new CheckingAccount(customer, balance);
+                _context.Accounts.Add(account as CheckingAccount);
             }
+            else if (TypeAccount == "SavingAccount")
+            {
+                account = new SavingAccount(customer, balance);
+                _context.Accounts.Add(account as SavingAccount);
+            }
+            else
+            {
+                Console.WriteLine(TypeAccount);
+
+                return BadRequest("Invalid account type");
+            }
+            account.AccountStatus = true;
+
+            account.AccountHolder = customer;
+
+            _context.Add(account);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Details", "Customers", new { id = customerId });
+            
+            //return View(account);
+        }
+        // GET: Accounts/Edit/5
+        // GET: Accounts/Edit/5
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var account = await _context.Accounts
+                 .Include(a => a.AccountHolder)
+                 .FirstOrDefaultAsync(a => a.AccountId == id);
+            if (account == null)
+            {
+                return NotFound();
+            }
+
+            ViewBag.CustomerId = account.AccountHolder.CustomerId;
+
             return View(account);
         }
+
+
+
+        // POST: Accounts/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("AccountId,AccountStatus")] Account account)
+        {
+            if (id != account.AccountId)
+            {
+                return NotFound();
+            }
+
+            try
+            {
+                var originalAccount = await _context.Accounts.Include(a => a.AccountHolder).FirstOrDefaultAsync(a => a.AccountId == id);
+
+                if (originalAccount == null)
+                {
+                    return NotFound();
+                }
+
+                originalAccount.AccountStatus = account.AccountStatus;
+
+                _context.Update(originalAccount);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction("Details", "Customers", new { id = originalAccount.AccountHolder.CustomerId });
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!AccountExists(account.AccountId))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+        }
+
+
+
+        //return View(account);
+    
+
+    // GET: Accounts/Delete/5
+    public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var account = await _context.Accounts
+                .FirstOrDefaultAsync(a => a.AccountId == id);
+
+            if (account == null)
+            {
+                return NotFound();
+            }
+
+            return View(account);
+        }
+
+        // POST: Accounts/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var account = await _context.Accounts.Include(a => a.AccountHolder)
+                .FirstOrDefaultAsync(a => a.AccountId == id);
+            var customerId = account.AccountHolder.CustomerId;  // Get CustomerId before deleting the account
+            _context.Accounts.Remove(account);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Details", "Customers", new { id = customerId });
+        }
+
+        private bool AccountExists(int id)
+        {
+            return (_context.Accounts?.Any(e => e.AccountId == id)).GetValueOrDefault();
+        }
+
+
+
+
     }
 }
 

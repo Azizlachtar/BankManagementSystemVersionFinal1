@@ -11,6 +11,7 @@ namespace BankManagementSystemVersionFinal1.Models
 
         public List<Employee> EmployeesList { get; set; }
 
+        public Department() { }
         public Department(string name)
         {
             EmployeesList = new List<Employee>();

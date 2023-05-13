@@ -14,7 +14,7 @@ using System.Security.Claims;
 
 namespace BankManagementSystemVersionFinal1.Controllers
 {
-    [Authorize(Roles ="Agent")]
+    //[Authorize(Roles ="Agent")]
     public class EmployeesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -162,59 +162,6 @@ namespace BankManagementSystemVersionFinal1.Controllers
 
         }
 
-        public async Task<IActionResult> DetailsAccounts(int id)
-        {
-            var account = await _context.Accounts
-                .Include(a => a.AccountHolder)
-                .FirstOrDefaultAsync(a => a.AccountId == id);
-
-            if (account == null)
-            {
-                return NotFound();
-            }
-
-            var transactions = await _context.Transactions
-                .Include(t => t.Account)
-                .Where(t => t.Account.AccountId == id)
-                .ToListAsync();
-
-
-            var deposits = new List<Transaction>();
-            var withdrawals = new List<Transaction>();
-
-            foreach (var transaction in transactions)
-            {
-
-
-                if (transaction.Description == "Deposit")
-                {
-                    deposits.Add(transaction);
-                }
-                else if (transaction.Description == "Withdraw")
-                {
-                    withdrawals.Add(transaction);
-                }
-            }
-            var loans = await _context.Loans
-                .Include(l => l.Account)
-                .Where(l => l.Account.AccountId == id)
-                .ToListAsync();
-
-            var transfers = await _context.Transfers
-                .Include(t => t.Sender)
-                    .ThenInclude(t => t.AccountHolder)
-                .Include(t => t.Receiver)
-                    .ThenInclude(t => t.AccountHolder)
-                .Where(t => t.Sender.AccountId == id || t.Receiver.AccountId == id)
-                .ToListAsync();
-
-            ViewBag.Deposits = deposits;
-            ViewBag.Withdrawals = withdrawals;
-            ViewBag.loans = loans;
-            ViewBag.transfers = transfers;
-            ViewBag.account = account;
-
-            return View(account);
-        }
+        
     }
 }
