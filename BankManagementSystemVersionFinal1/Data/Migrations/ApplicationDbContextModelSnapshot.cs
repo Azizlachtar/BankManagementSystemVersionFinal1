@@ -69,9 +69,12 @@ namespace BankManagementSystemVersionFinal1.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+<<<<<<< Updated upstream
                     b.Property<int?>("ManagerId")
                         .HasColumnType("int");
 
+=======
+>>>>>>> Stashed changes
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -81,10 +84,13 @@ namespace BankManagementSystemVersionFinal1.Data.Migrations
 
                     b.HasKey("BranchId");
 
+<<<<<<< Updated upstream
                     b.HasIndex("ManagerId")
                         .IsUnique()
                         .HasFilter("[ManagerId] IS NOT NULL");
 
+=======
+>>>>>>> Stashed changes
                     b.ToTable("BankBranches");
                 });
 
@@ -275,6 +281,7 @@ namespace BankManagementSystemVersionFinal1.Data.Migrations
 
                     b.HasIndex("ReceiverId");
 
+<<<<<<< Updated upstream
                     b.HasIndex("SenderId");
 
                     b.ToTable("Transfers");
@@ -307,6 +314,9 @@ namespace BankManagementSystemVersionFinal1.Data.Migrations
                     b.HasKey("LoginId");
 
                     b.ToTable("Users");
+=======
+                    b.ToTable("Transfers");
+>>>>>>> Stashed changes
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -573,6 +583,7 @@ namespace BankManagementSystemVersionFinal1.Data.Migrations
                     b.Navigation("AccountHolder");
                 });
 
+<<<<<<< Updated upstream
             modelBuilder.Entity("BankManagementSystemVersionFinal1.Models.BankBranch", b =>
                 {
                     b.HasOne("BankManagementSystemVersionFinal1.Models.Manager", "Manager")
@@ -583,6 +594,8 @@ namespace BankManagementSystemVersionFinal1.Data.Migrations
                     b.Navigation("Manager");
                 });
 
+=======
+>>>>>>> Stashed changes
             modelBuilder.Entity("BankManagementSystemVersionFinal1.Models.Customer", b =>
                 {
                     b.HasOne("BankManagementSystemVersionFinal1.Models.BankBranch", "BankBranch")
