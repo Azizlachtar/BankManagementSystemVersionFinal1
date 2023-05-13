@@ -1,0 +1,10 @@
+﻿@model BankManagementSystemVersionFinal1.Models.Transfer
+
+<h1>Transfer</h1>
+
+<form asp-action="CreateTransfer">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <input type="hidden" asp-for="SenderAccountId" value="@Model.SenderAccountId" />
+    <div class="form-group">
+        <label asp-for="ReceiverAccountId" class="control-label"></label>
+        <input asp-for="

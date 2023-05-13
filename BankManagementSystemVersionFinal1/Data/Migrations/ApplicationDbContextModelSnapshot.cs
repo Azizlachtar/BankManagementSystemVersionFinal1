@@ -47,7 +47,7 @@ namespace BankManagementSystemVersionFinal1.Data.Migrations
 
                     b.HasIndex("AccountHolderCustomerId");
 
-                    b.ToTable("Accounts", (string)null);
+                    b.ToTable("Accounts");
 
                     b.HasDiscriminator<string>("TypeAccount").HasValue("Account");
 
@@ -69,10 +69,6 @@ namespace BankManagementSystemVersionFinal1.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ManagerId")
-                        .IsRequired()
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -82,10 +78,7 @@ namespace BankManagementSystemVersionFinal1.Data.Migrations
 
                     b.HasKey("BranchId");
 
-                    b.HasIndex("ManagerId")
-                        .IsUnique();
-
-                    b.ToTable("BankBranches", (string)null);
+                    b.ToTable("BankBranches");
                 });
 
             modelBuilder.Entity("BankManagementSystemVersionFinal1.Models.Customer", b =>
@@ -121,7 +114,7 @@ namespace BankManagementSystemVersionFinal1.Data.Migrations
 
                     b.HasIndex("BankBranchBranchId");
 
-                    b.ToTable("Customers", (string)null);
+                    b.ToTable("Customers");
                 });
 
             modelBuilder.Entity("BankManagementSystemVersionFinal1.Models.Department", b =>
@@ -138,7 +131,7 @@ namespace BankManagementSystemVersionFinal1.Data.Migrations
 
                     b.HasKey("DepartmentId");
 
-                    b.ToTable("Departments", (string)null);
+                    b.ToTable("Departments");
                 });
 
             modelBuilder.Entity("BankManagementSystemVersionFinal1.Models.Employee", b =>
@@ -180,7 +173,7 @@ namespace BankManagementSystemVersionFinal1.Data.Migrations
 
                     b.HasIndex("DepartmentId");
 
-                    b.ToTable("Employees", (string)null);
+                    b.ToTable("Employees");
 
                     b.HasDiscriminator<string>("Position").HasValue("Employee");
 
@@ -217,7 +210,7 @@ namespace BankManagementSystemVersionFinal1.Data.Migrations
 
                     b.HasIndex("AccountId");
 
-                    b.ToTable("Loans", (string)null);
+                    b.ToTable("Loans");
                 });
 
             modelBuilder.Entity("BankManagementSystemVersionFinal1.Models.Transaction", b =>
@@ -250,7 +243,7 @@ namespace BankManagementSystemVersionFinal1.Data.Migrations
 
                     b.HasIndex("LoanId");
 
-                    b.ToTable("Transactions", (string)null);
+                    b.ToTable("Transactions");
                 });
 
             modelBuilder.Entity("BankManagementSystemVersionFinal1.Models.Transfer", b =>
@@ -279,7 +272,7 @@ namespace BankManagementSystemVersionFinal1.Data.Migrations
 
                     b.HasIndex("ReceiverId");
 
-                    b.ToTable("Transfers", (string)null);
+                    b.ToTable("Transfers");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -544,17 +537,6 @@ namespace BankManagementSystemVersionFinal1.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("AccountHolder");
-                });
-
-            modelBuilder.Entity("BankManagementSystemVersionFinal1.Models.BankBranch", b =>
-                {
-                    b.HasOne("BankManagementSystemVersionFinal1.Models.Manager", "Manager")
-                        .WithOne()
-                        .HasForeignKey("BankManagementSystemVersionFinal1.Models.BankBranch", "ManagerId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Manager");
                 });
 
             modelBuilder.Entity("BankManagementSystemVersionFinal1.Models.Customer", b =>

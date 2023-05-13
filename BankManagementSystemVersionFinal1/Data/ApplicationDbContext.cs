@@ -20,6 +20,7 @@ namespace BankManagementSystemVersionFinal1.Data
         public DbSet<Loan> Loans { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<Transfer> Transfers { get; set; }
+        public DbSet<CustomerModel> CustomerModels { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
