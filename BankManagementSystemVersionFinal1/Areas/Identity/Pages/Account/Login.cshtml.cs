@@ -137,7 +137,7 @@ namespace BankManagementSystemVersionFinal1.Areas.Identity.Pages.Account
                     else
                     {
                         // Handle the case when the user doesn't have a role assigned
-                        return LocalRedirect("/Admin/Index");
+                        return LocalRedirect("/admin");
                     }
                 }
                 if (result.RequiresTwoFactor)

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BankManagementSystemVersionFinal1.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230512165439_bankdb8")]
-    partial class bankdb8
+    [Migration("20230513220641_BankBranch")]
+    partial class BankBranch
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -72,9 +72,6 @@ namespace BankManagementSystemVersionFinal1.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ManagerId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -83,10 +80,6 @@ namespace BankManagementSystemVersionFinal1.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("BranchId");
-
-                    b.HasIndex("ManagerId")
-                        .IsUnique()
-                        .HasFilter("[ManagerId] IS NOT NULL");
 
                     b.ToTable("BankBranches");
                 });
@@ -113,10 +106,9 @@ namespace BankManagementSystemVersionFinal1.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PhoneNumber")
+                    b.Property<int?>("PhoneNumber")
                         .HasColumnType("int");
 
                     b.HasKey("CustomerId");
@@ -203,16 +195,16 @@ namespace BankManagementSystemVersionFinal1.Data.Migrations
                     b.Property<double>("Amount")
                         .HasColumnType("float");
 
-                    b.Property<DateTime>("EndingDate")
+                    b.Property<DateTime?>("EndingDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<double>("InterstRate")
+                    b.Property<double?>("InterstRate")
                         .HasColumnType("float");
 
                     b.Property<int>("LoanStatus")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("StartingDate")
+                    b.Property<DateTime?>("StartingDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("LoanId");
@@ -263,9 +255,6 @@ namespace BankManagementSystemVersionFinal1.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdTransfer"));
 
-                    b.Property<int>("AccountId")
-                        .HasColumnType("int");
-
                     b.Property<double>("Amount")
                         .HasColumnType("float");
 
@@ -275,13 +264,45 @@ namespace BankManagementSystemVersionFinal1.Data.Migrations
                     b.Property<int>("ReceiverId")
                         .HasColumnType("int");
 
-                    b.HasKey("IdTransfer");
+                    b.Property<int>("SenderId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("AccountId");
+                    b.HasKey("IdTransfer");
 
                     b.HasIndex("ReceiverId");
 
+                    b.HasIndex("SenderId");
+
                     b.ToTable("Transfers");
+                });
+
+            modelBuilder.Entity("BankManagementSystemVersionFinal1.Models.User", b =>
+                {
+                    b.Property<int>("LoginId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LoginId"));
+
+                    b.Property<string>("ConfirmPassword")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("LoginId");
+
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -548,16 +569,6 @@ namespace BankManagementSystemVersionFinal1.Data.Migrations
                     b.Navigation("AccountHolder");
                 });
 
-            modelBuilder.Entity("BankManagementSystemVersionFinal1.Models.BankBranch", b =>
-                {
-                    b.HasOne("BankManagementSystemVersionFinal1.Models.Manager", "Manager")
-                        .WithOne()
-                        .HasForeignKey("BankManagementSystemVersionFinal1.Models.BankBranch", "ManagerId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("Manager");
-                });
-
             modelBuilder.Entity("BankManagementSystemVersionFinal1.Models.Customer", b =>
                 {
                     b.HasOne("BankManagementSystemVersionFinal1.Models.BankBranch", "BankBranch")
@@ -616,16 +627,16 @@ namespace BankManagementSystemVersionFinal1.Data.Migrations
 
             modelBuilder.Entity("BankManagementSystemVersionFinal1.Models.Transfer", b =>
                 {
-                    b.HasOne("BankManagementSystemVersionFinal1.Models.Account", "Sender")
-                        .WithMany("Transfers")
-                        .HasForeignKey("AccountId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("BankManagementSystemVersionFinal1.Models.CheckingAccount", "Receiver")
                         .WithMany()
                         .HasForeignKey("ReceiverId")
                         .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("BankManagementSystemVersionFinal1.Models.Account", "Sender")
+                        .WithMany("Transfers")
+                        .HasForeignKey("SenderId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Receiver");

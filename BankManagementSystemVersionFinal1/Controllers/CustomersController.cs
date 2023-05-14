@@ -24,7 +24,7 @@ namespace BankManagementSystemVersionFinal1.Controllers
         {
             var customers = _context.Customers
                .Include(c => c.BankBranch)
-               .ThenInclude(bb => bb.Manager)
+               //.ThenInclude(bb => bb.Manager)
                .ToList();
 
             return View(customers);
